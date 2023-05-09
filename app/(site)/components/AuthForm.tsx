@@ -24,8 +24,9 @@ const AuthForm = () => {
     if (session?.status === "authenticated") {
       console.log("authenticated");
       router.push("/users");
+    } else {
+      router.push("/");
     }
-    router.push("/");
   }, [session?.status]);
 
   const toggleVariant = useCallback(() => {
@@ -71,6 +72,7 @@ const AuthForm = () => {
 
           if (callback?.ok && !callback?.error) {
             toast.success("Logged in successfully");
+            router.push("/users");
           }
         })
         .finally(() => setIsLoading(false));
