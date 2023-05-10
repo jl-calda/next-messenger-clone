@@ -22,12 +22,9 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      console.log("authenticated");
       router.push("/users");
-    } else {
-      router.push("/");
     }
-  }, [session?.status]);
+  }, [session?.status, router]);
 
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
@@ -55,6 +52,7 @@ const AuthForm = () => {
     if (variant === "REGISTER") {
       axios
         .post("/api/register", data)
+        .then(() => signIn("credentials", { ...data }))
         .then(() => toast.success("Account created successfully"))
         .catch(() => toast.error("Something went wrong"))
         .finally(() => setIsLoading(false));
