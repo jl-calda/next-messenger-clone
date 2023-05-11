@@ -18,6 +18,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   data,
   selected,
 }) => {
+  console.log(data.messages);
   const otherUser = useOtherUser(data);
   const session = useSession();
   const router = useRouter();
@@ -28,7 +29,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
 
   const lastMessage = useMemo(() => {
     const messages = data.messages || [];
-    return messages[-1];
+    return messages.slice(-1)[0];
   }, [data.messages]);
 
   const userEmail = useMemo(() => {
@@ -54,11 +55,11 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     }
     if (lastMessage?.body) {
       return lastMessage.body;
+    } else {
+      return "Started a conversation";
     }
-
-    return "Started a conversation";
-  }, [lastMessage]);
-
+  }, [lastMessage?.body, lastMessage?.image]);
+  console.log(lastMessageText);
   return (
     <div
       onClick={handleClick}
